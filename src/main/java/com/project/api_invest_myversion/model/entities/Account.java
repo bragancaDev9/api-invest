@@ -1,12 +1,15 @@
 package com.project.api_invest_myversion.model.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.project.api_invest_myversion.model.entities.enums.AccountType;
 
 @Document(collection = "accounts")
 public class Account implements Serializable {
@@ -14,19 +17,22 @@ public class Account implements Serializable {
 	
 	@Id
 	private String id;
+	private String name, cpfOrCnpj;
 	private Date creationDate;
 	private Double balance;
+	private AccountType accountType;
 	
-	@DBRef
-	private User user;
+	private List<Phone> phones = new ArrayList<>();
 	
 	public Account() {}
 
-	public Account(String id, User user, Double balance) {
+	public Account(String id, String name, String cpfOrCnpj, AccountType accountType) {
 		this.id = id;
-		this.user = user;
-		this.balance = balance;
+		this.name = name;
+		this.cpfOrCnpj = cpfOrCnpj;
+		this.balance = 0.0;
 		this.creationDate = new Date();
+		this.accountType = accountType;
 	}
 
 	public String getId() {
@@ -35,6 +41,22 @@ public class Account implements Serializable {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCpfOrCnpj() {
+		return cpfOrCnpj;
+	}
+
+	public void setCpfOrCnpj(String cpfOrCnpj) {
+		this.cpfOrCnpj = cpfOrCnpj;
 	}
 
 	public Date getCreationDate() {
@@ -52,13 +74,25 @@ public class Account implements Serializable {
 	public void setBalance(Double balance) {
 		this.balance = balance;
 	}
-
-	public User getUser() {
-		return user;
+	
+	public AccountType getAccountType() {
+		return accountType;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setAccountType(AccountType accountType) {
+		this.accountType = accountType;
+	}
+	
+	public List<Phone> getPhones() {
+		return phones;
+	}
+	
+	public void deposit(Double amount) {
+		balance += amount;
+	}
+	
+	public void withdraw(Double amount) {
+		balance -= amount + 5.0;
 	}
 
 	@Override
