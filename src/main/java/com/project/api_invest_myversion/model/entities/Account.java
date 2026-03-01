@@ -23,6 +23,8 @@ public class Account implements Serializable {
 	private AccountType accountType;
 	
 	private List<Phone> phones = new ArrayList<>();
+	private List<Address> addresses = new ArrayList<>();
+	private List<Invest> invests = new ArrayList<>();
 	
 	public Account() {}
 
@@ -87,6 +89,14 @@ public class Account implements Serializable {
 		return phones;
 	}
 	
+	public List<Address> getAddresses() {
+		return addresses;
+	}
+	
+	public List<Invest> getInvests() {
+		return invests;
+	}
+
 	public void deposit(Double amount) {
 		balance += amount;
 	}
